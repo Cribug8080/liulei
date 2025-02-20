@@ -1,7 +1,7 @@
 import { View, Text, Input, Form, Button, Picker } from "@tarojs/components";
 import { useLoad } from "@tarojs/taro";
 import "./index.less";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Taro from "@tarojs/taro";
 
 const baseRange = new Array(35).fill(1).map((v, i) => ({
@@ -10,6 +10,19 @@ const baseRange = new Array(35).fill(1).map((v, i) => ({
 }));
 
 console.log(baseRange);
+
+// wx.showShareMenu({
+//   withShareTicket: true,
+//   menus: ['shareAppMessage', 'shareTimeline']
+// })
+
+// withShareTicket?: boolean
+// /** QQ小程序分享功能，支持分享到QQ、QQ空间、微信好友、微信朋友圈
+//  * @supported weapp, qq
+//  * @qq QQ支持的值： ['qq', 'qzone', 'wechatFriends', 'wechatMoment']
+//  * @weapp 微信支持：['wechatFriends', 'wechatMoment'] / ['shareAppMessage', 'shareTimeline']
+//  */
+// showShareItems?: string[]
 
 export default function Index() {
   const [formData, setFormData] = useState(() => {
@@ -77,6 +90,13 @@ export default function Index() {
       },
     });
   };
+
+  useEffect(() => {
+    Taro.showShareMenu({
+      withShareTicket: true,
+      showShareItems: ["shareAppMessage", "shareTimeline"],
+    });
+  }, []);
 
   useLoad(() => {
     console.log("Page loaded.");
